@@ -1,7 +1,11 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.22.0)
 
-project(carsenal VERSION 0.1.1 LANGUAGES ASM C CXX)
+# 设置 vcpkg 工具链（必须在 project() 之前）
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/third/lib_manager/vcpkg/scripts/buildsystems/vcpkg.cmake
+    CACHE STRING "Vcpkg toolchain file")
+
+project(carsenal VERSION 1.0.0 LANGUAGES ASM C CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -30,22 +34,45 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8")
 # 三方库代码
 add_subdirectory(third/log_format/log.c)           # 添加logc库的子目录
 add_subdirectory(third/cmdline_parser/gflags)      # 添加gflags库的子目录
-add_subdirectory(third/general_purpose/boost)      # 添加boost库的子目录
+# add_subdirectory(third/general_purpose/boost)      # 添加boost库的子目录
 
-## 设置公共头文件路径
-# set(PROJECT_PUBLIC_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/third)
-## 添加第三方库路径
-# list(APPEND third_INCLUDE_DIRS
-#         ${CMAKE_SOURCE_DIR}/third/cmdline_parser
-#         ${CMAKE_SOURCE_DIR}/third/log_format
-#         ${CMAKE_SOURCE_DIR}/third/general_purpose/boost
-# )
-## 创建接口库 (统一访问点)
-# add_library(third_warp INTERFACE)
-# target_include_directories(third_warp INTERFACE
-#         $<BUILD_INTERFACE:${PROJECT_PUBLIC_INCLUDE_DIR}>  # 项目公共头文件
-#         $<BUILD_INTERFACE:${third_INCLUDE_DIRS}>          # 第三方头文件
-# )
+# vcpkg 方式
+
+set(Boost_DEBUG ON)  # 启用调试信息，查看查找过程
+set(Boost_USE_STATIC_LIBS OFF)  # 或 ON，根据你的需求
+# 查找 Boost 库
+find_package(Boost 1.90.0 REQUIRED COMPONENTS
+    program_options  # 命令解析
+    log              # 日志主库
+    log_setup        # 日志配置
+    thread           # 多线程
+    filesystem       # 文件系统（日志需要）
+    system           # 系统支持
+    date_time        # 时间戳
+    chrono           # 时间功能
+)
+# 打印找到的 Boost 信息
+if(Boost_FOUND)
+    message(STATUS "Boost found!")
+    message(STATUS "  Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+    message(STATUS "  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
+    message(STATUS "  Boost_VERSION: ${Boost_VERSION}")
+    message(STATUS "  Boost_LIBRARIES: ${Boost_LIBRARIES}")
+endif()
+
+# 主程序
+add_executable(carsenal src/CArsenal.cpp)
+# 链接 Boost 库
+target_link_libraries(carsenal PRIVATE
+    Boost::program_options
+    Boost::log
+    Boost::log_setup
+    Boost::thread
+    Boost::filesystem
+    Boost::system
+    Boost::date_time
+    Boost::chrono
+)
 
 # 包含子目录
 # 本项目库代码

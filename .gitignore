@@ -43,6 +43,9 @@
 # build directories
 build_cmake/
 
+# vcpkg directories
+vcpkg_installed/
+
 # target directories
 target/
 *.lock

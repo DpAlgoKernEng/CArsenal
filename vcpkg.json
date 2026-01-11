@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "carsenal",
+  "version": "1.0.0",
+  "builtin-baseline": "25b458671af03578e6a34edd8f0d1ac85e084df4",
+  "dependencies": [
+    "boost-program-options",
+    "boost-log",
+    "boost-thread",
+    "boost-filesystem",
+    "boost-system",
+    "boost-date-time",
+    "boost-chrono"
+  ],
+  "overrides": [
+    {
+      "name": "boost-program-options",
+      "version": "1.90.0"
+    },
+    {
+      "name": "boost-log",
+      "version": "1.90.0"
+    },
+    {
+      "name": "boost-thread",
+      "version": "1.90.0"
+    },
+    {
+      "name": "boost-filesystem",
+      "version": "1.90.0"
+    },
+    {
+      "name": "boost-system",
+      "version": "1.90.0"
+    },
+    {
+      "name": "boost-date-time",
+      "version": "1.90.0"
+    },
+    {
+      "name": "boost-chrono",
+      "version": "1.90.0"
+    }
+  ]
+}
