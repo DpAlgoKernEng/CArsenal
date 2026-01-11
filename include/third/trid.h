@@ -1,1 +1,1 @@
-#process once
+#pragma once

@@ -1,1 +1,74 @@
-.clang-tidy
+# .clang-tidy - 完整配置示例
+
+# 启用/禁用检查项列表
+# > 表示多行配置，便于阅读
+# 启用所有主要检查类别，但排除特定检查项
+
+# 启用所有bugprone相关检查（潜在bug检测）
+# 启用所有静态分析器检查
+# 启用C++核心指南检查
+# 启用Google风格检查
+# 启用现代化C++检查（如C++11/14/17特性）
+# 启用性能相关检查
+# 启用可移植性检查
+# 启用可读性检查
+# 排除"using namespace"检查（允许使用命名空间）
+# 排除vararg检查（允许可变参数函数）
+Checks: >
+    bugprone-*,
+    clang-analyzer-*,
+    cppcoreguidelines-*,
+    google-*,
+    modernize-*,
+    performance-*,
+    portability-*,
+    readability-*,
+    -google-build-using-namespace,
+    -cppcoreguidelines-pro-type-vararg
+
+# 指定要分析的文件类型（正则表达式匹配）
+# 只检查C/C++源文件和头文件
+HeaderFilterRegex: '.*\.(c|h|cpp|hpp)$'
+
+# 将严重问题视为错误（而非警告）
+# 对bugprone和静态分析器检查项生效
+WarningsAsErrors: 'bugprone-*,clang-analyzer-*'
+
+# 各检查项的详细配置
+CheckOptions:
+  # 魔法数字检查配置
+  # 忽略常见数字（如0,1等）和位宽相关数字
+  readability-magic-numbers.IgnoredNumbers: '0,1,2,3,4,8,16,32,64,100'
+  readability-magic-numbers.IgnoreBitFields: true
+  
+  # 函数复杂度配置
+  # 行数超过50行警告
+  readability-function-size.LineThreshold: 50
+  # 语句数超过30条警告
+  readability-function-size.StatementThreshold: 30
+  # 参数超过6个警告
+  readability-function-size.ParameterThreshold: 6
+  
+  # 命名风格检查
+  # 类名使用大驼峰(CamelCase)
+  readability-identifier-naming.ClassCase: CamelCase
+  # 变量名使用小驼峰(camelBack)
+  readability-identifier-naming.VariableCase: camelBack
+  
+  # 空指针解引用检查
+  # 忽略宏中的空指针检查
+  clang-analyzer-core.NullDereference.IgnoreMacros: true
+  
+  # 现代C++配置
+  # 宏中使用NULL不触发nullptr警告
+  modernize-use-nullptr.IgnoreMacros: true
+  # 忽略隐式构造函数的emplace检查
+  modernize-use-emplace.IgnoreImplicitConstructors: true
+
+# 代码格式化配置
+# 使用项目中的.clang-format文件（而非内置样式）
+FormatStyle: file
+
+# 临时对象析构分析（默认禁用）
+# 启用后会分析临时对象的析构行为
+# AnalyzeTemporaryDtors: true

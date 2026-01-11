@@ -1,1 +1,80 @@
-.clangd
+# .clang-tidy 配置文件详解
+
+# ======================
+# 主配置部分（全局设置）
+# ======================
+# 这些设置适用于所有文件，除非被条件块覆盖
+
+# 诊断设置
+Diagnostics:
+  # Clang-Tidy 检查器配置
+  ClangTidy:
+    # 启用/禁用的检查项列表
+    Add:
+      # 启用所有潜在错误检查
+      - bugprone-*
+      # 启用静态分析器检查
+      - clang-analyzer-*
+      # 启用C++核心指南检查
+      - cppcoreguidelines-*
+      # 启用Google风格检查
+      - google-*
+      # 启用现代化C++检查
+      - modernize-*
+      # 启用性能优化检查
+      - performance-*
+      # 启用可移植性检查
+      - portability-*
+      # 启用可读性检查
+      - readability-*
+    Remove:
+      - google-build-using-namespace
+
+# 编译器标志
+CompileFlags:
+  # 指定编译命令数据库路径（通常由CMake生成）
+  CompilationDatabase: build_cmake  # 从 build_cmake 目录获取编译命令
+  
+  # 添加额外的编译器标志
+  Add:                        
+    # 启用所有标准警告
+    - -Wall                   # 所有警告
+    # 启用额外警告级别
+    - -Wextra                 # 额外警告
+    # 添加项目包含路径（${projectRoot}是变量）
+    - -I${projectRoot}/include # 添加包含路径
+
+
+# 代码补全
+Completion:
+  # 启用全作用域代码补全（不仅限于当前作用域）
+  AllScopes: true          # 搜索所有作用域
+
+
+# 索引设置
+Index:
+  # 索引构建方式：在后台构建（不影响编辑体验）
+  Background: Build        # 后台构建索引
+
+
+# 内联提示
+InlayHints:
+  # 启用内联提示功能
+  Enabled: true  # 启用参数名提示等辅助功能
+  # 显示参数名提示
+  Designators: true
+
+# ======================
+# 测试文件特殊配置
+# ======================
+# 条件块：对测试文件应用特殊规则
+# If:
+#   # 使用正则表达式匹配测试文件（*_test.cpp或*_test.h）
+#   PathMatch: ".*_test\\.(cpp|h)$"  # 匹配测试文件
+#   
+#   # 匹配成功时应用的配置
+#   Then: 
+#     Diagnostics:
+#       ClangTidy:
+#         # 在测试文件中移除性能检查（测试代码通常不关心性能）
+#         Remove: [performance-*]  # 移除性能检查（测试中不相关）

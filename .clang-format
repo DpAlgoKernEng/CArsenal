@@ -1,1 +1,65 @@
-.clang-format
+# 基础风格：基于 LLVM 风格，但进行了定制化
+BasedOnStyle: LLVM
+
+# 语言设置：同时支持 C 和 C++（移除 Language 声明让 clang-format 自动检测）
+# 优化建议：移除 Language 声明，clang-format 会根据文件扩展名自动识别
+
+# 指针对齐设置
+DerivePointerAlignment: false  # 禁用自动推导指针对齐
+PointerAlignment: Left         # 强制指针靠近类型 (int* ptr)
+
+# 缩进设置（兼容 C/C++）
+AccessModifierOffset: -4    # C++ 类访问修饰符缩进（C 语言忽略）
+IndentWidth: 4              # 通用缩进宽度
+TabWidth: 4                 # Tab 宽度
+UseTab: Never               # 禁用 Tab，使用空格
+
+# 大括号风格（Allman 风格兼容 C/C++）
+BreakBeforeBraces: Stroustrup
+BraceWrapping:
+  AfterClass: true      # 类后换行 (Stroustrup 默认)
+  AfterFunction: true   # 函数后换行 (Stroustrup 默认)
+  AfterStruct: true     # 结构体后换行
+  AfterUnion: true      # 联合体后换行
+  AfterEnum: true       # 枚举后换行
+  AfterNamespace: false # 命名空间后不换行 (Stroustrup 默认)
+  AfterControlStatement: Never # 控制语句后不换行 (Stroustrup 核心)
+
+# 空格控制（C/C++ 通用）
+SpaceBeforeParens: ControlStatements  # if/while/for 后加空格
+SpacesInParentheses: false            # ( 内部 ) 不加空格
+SpacesInAngles: false                 # < 内部 > 不加空格（C++ 模板）
+
+# 换行策略
+ColumnLimit: 80            # 行宽限制
+BinPackArguments: false    # 函数参数不打包（每行一个）
+BinPackParameters: false
+AllowShortFunctionsOnASingleLine: Empty  # 仅允许空函数单行
+AllowShortIfStatementsOnASingleLine: Never  # if 语句不压缩
+
+# 注释处理
+AlignTrailingComments: true  # 对齐尾部注释
+ReflowComments: true         # 重排注释适应行宽
+AlignConsecutiveDeclarations: true  # 对齐连续变量声明
+
+# 头文件排序（C/C++ 通用）
+SortIncludes: true
+IncludeBlocks: Regroup  # 智能分组头文件
+IncludeCategories:
+  - Regex: '^<.*\.h>'        # 系统头文件 (stdio.h)
+    Priority: 1
+  - Regex: '^<.*'            # 其他系统头 (cstdlib)
+    Priority: 2
+  - Regex: '".*"'            # 用户头文件
+    Priority: 3
+
+# 宏处理（C/C++ 通用）
+AlignConsecutiveMacros: true  # 对齐连续宏
+BreakBeforeTernaryOperators: true  # ? 前换行
+
+# 空行控制
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# C 语言特有关键字处理（C11 后支持）
+AlignConsecutiveBitFields: true  # 对齐位域

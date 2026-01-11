@@ -1,1 +1,35 @@
-.gitattributes
+# 所有文本文件自动转换为 LF 换行符（Unix 标准），检出时根据 OS 自动转换
+* text=auto
+
+# 显式指定特定文本文件类型（确保跨平台一致）
+*.txt text
+*.md text
+*.html text
+*.css text
+*.js text
+*.json text
+*.yml text
+*.yaml text
+*.xml text
+*.sh text eol=lf       # Shell 脚本强制使用 LF（避免执行错误）
+*.bat text eol=crlf    # Windows 批处理文件强制使用 CRLF
+
+# 禁止 Git 自动转换换行符 二进制文件处理（防止误转换）
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.jar binary
+*.woff binary
+*.woff2 binary
+
+# 禁用特定文件的差异比较（如压缩文件）
+*.zip -diff
+*.pdf -diff
+*.xlsx -diff
+
+# 为 Markdown 文件启用 GitHub 的换行符渲染
+*.md text eol=lf
