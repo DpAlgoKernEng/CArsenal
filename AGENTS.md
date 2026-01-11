@@ -208,3 +208,10 @@ BOOST_LOG_TRIVIAL(error) << "Failed to open file: " << filename;
 *本文档最后更新: 2025年1月11日*
 *维护者: CArsenal项目组*
 *文档版本: 1.0*
+
+## Active Technologies
+- C++17 or later (modern C++ standards) + Standard library only; project has existing CLI11/gflags but new implementation will be independent (001-cmdline-parser)
+- N/A (in-memory parsing only) (001-cmdline-parser)
+
+## Recent Changes
+- 001-cmdline-parser: Added C++17 or later (modern C++ standards) + Standard library only; project has existing CLI11/gflags but new implementation will be independent
