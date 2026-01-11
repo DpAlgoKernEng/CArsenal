@@ -1,0 +1,6 @@
+[submodule "third/cmdline_parser/gflags"]
+	path = third/cmdline_parser/gflags
+	url = https://github.com/gflags/gflags.git
+[submodule "third/general_purpose/boost"]
+	path = third/general_purpose/boost
+	url = https://github.com/boostorg/boost.git
